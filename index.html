@@ -12,6 +12,9 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            background-color: black; /* Set background to black */
+            color: white; /* Set text color to white */
+            font-family: 'Roboto', sans-serif; /* Use a readable font */
         }
         .background-image {
             background-image: url('mitsubishi login page photo.jpg');
@@ -26,10 +29,10 @@
             z-index: 1;
         }
         .login-container {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 0, 0, 0.9); /* Set to a more opaque red */
             border-radius: 10px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             width: 400px;
             position: relative;
             z-index: 2;
@@ -44,6 +47,70 @@
         .hidden {
             display: none;
         }
+        .bg-red-600 {
+            background-color: #c62828; /* Darker red */
+        }
+        .bg-red-700 {
+            background-color: #b71c1c; /* Even darker red */
+        }
+        .text-gray-700 {
+            color: white; /* Change gray text to white */
+        }
+        .text-gray-600 {
+            color: white; /* Change gray text to white */
+        }
+        .bg-white {
+            background-color: #1a1a1a; /* Change white background to dark gray */
+        }
+        .text-red-500 {
+            color: #ff5252; /* Bright red for error messages */
+        }
+        .border {
+            border-color: white; /* Change border color to white */
+        }
+        .bg-blue-500 {
+            background-color: #1e88e5; /* Change blue to a darker shade */
+        }
+        .bg-blue-600 {
+            background-color: #1976d2; /* Change blue to a darker shade */
+        }
+        /* Additional styles for better readability */
+        input, select, button {
+            background-color: #333; /* Dark background for inputs */
+            color: white; /* White text for inputs */
+            border: 1px solid #555; /* Lighter border for inputs */
+        }
+        input::placeholder, select {
+            color: #aaa; /* Lighter placeholder text */
+        }
+        button:hover {
+            background-color: #ff5252; /* Bright red on hover */
+        }
+        table {
+            background-color: #222; /* Dark background for tables */
+        }
+        th {
+            background-color: #444; /* Darker background for table headers */
+            color: white; /* White text for headers */
+        }
+        td {
+            border-bottom: 1px solid #555; /* Lighter border for table rows */
+        }
+        /* Scrollable activity list */
+        #recentActivity {
+            position: relative; /* Position relative for the button */
+        }
+        #activityList {
+            max-height: 200px; /* Set a fixed height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-right: 20px; /* Add padding to avoid content being hidden by scrollbar */
+        }
+        #clearActivityBtn {
+            position: absolute; /* Position absolute to keep it fixed */
+            bottom: 10px; /* Position it at the bottom */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+        }
     </style>
 </head>
 <body>
@@ -53,17 +120,10 @@
     <div id="loginPage" class="min-h-screen flex items-center justify-center">
         <div class="login-container">
             <h2 class="text-2xl font-bold mb-4">Login</h2>
-            <div class="mb-4">
-                <label class="block text-gray-700">Select Role:</label>
-                <select id="userRole" class="w-full p-2 border rounded">
-                    <option value="admin">Admin</option>
-                    <option value="customer">Customer</option>
-                </select>
-            </div>
             <input id="username" class="w-full p-2 border rounded mb-4" placeholder="Username" type="text"/>
             <div class="relative mb-4">
                 <input id="password" class="w-full p-2 border rounded" placeholder="Password" type="password"/>
-                <button id="togglePassword" class="absolute right-2 top-2 text-gray-500">
+                <button id="togglePassword" class="absolute right-2 top-2 text-white">
                     <i class="fas fa-eye" id="eyeIcon"></i>
                 </button>
             </div>
@@ -87,42 +147,42 @@
             </div>
         </nav>
 
-        <div class="bg-white shadow-md mt-4 mx-4 p-4 rounded-lg flex items-center space-x-4">
-            <img alt="User  avatar" class="rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/dWvXnCUU23_PRx60bhwD93F0e3Q6QRK15vzBDcypTYk.jpg" width="50"/>
+        <div class="bg-black shadow-md mt-4 mx-4 p-4 rounded-lg flex items-center space-x-4">
+            <img alt="User   avatar" class="rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/dWvXnCUU23_PRx60bhwD93F0e3Q6QRK15vzBDcypTYk.jpg" width="50"/>
             <div>
                 <h2 class="text-xl font-bold" id="adminName">Good morning, Admin!</h2>
                 <p class="text-gray-600">Here’s your daily update.</p>
             </div>
         </div>
 
-        <div class="flex-grow p-6 bg-white shadow-md mt-4 mx-4 rounded-lg fade-in" id="mainContent">
+        <div class="flex-grow p-6 bg-black shadow-md mt-4 mx-4 rounded-lg fade-in" id="mainContent">
             <div class="space-y-6" id="dashboard">
                 <h2 class="text-3xl font-bold">Dashboard</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-gradient-to-r from-red-500 to-yellow-500 p-4 rounded-lg shadow text-white">
+                    <div class="bg-gradient-to-r from-red-500 to-yellow-500 p-4 rounded-lg shadow text-white" id="pendingClaims">
                         <div class="flex items-center space-x-4">
                             <i class="fas fa-clipboard-list text-3xl"></i>
                             <div>
                                 <h3 class="text-xl font-semibold">Pending Claims</h3>
-                                <p class="text-2xl">15</p>
+                                <p class="text-2xl" id="pendingClaimsCount">0</p>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-lg shadow text-white">
+                    <div class="bg-gradient-to-r from-red-500 to-yellow-500 p-4 rounded-lg shadow text-white" id="stockStatus">
                         <div class="flex items-center space-x-4">
                             <i class="fas fa-warehouse text-3xl"></i>
                             <div>
                                 <h3 class="text-xl font-semibold">Stock Status</h3>
-                                <p class="text-2xl">120 Plates</p>
+                                <p class="text-2xl" id="stockCount">0</p>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-lg shadow text-white">
+                    <div class="bg-gradient-to-r from-red-500 to-yellow-500 p-4 rounded-lg shadow text-white" id="recentNotifications">
                         <div class="flex items-center space-x-4">
                             <i class="fas fa-bell text-3xl"></i>
                             <div>
                                 <h3 class="text-xl font-semibold">Recent Notifications</h3>
-                                <p class="text-2xl">5</p>
+                                <p class="text-2xl" id="notificationCount">0</p>
                             </div>
                         </div>
                     </div>
@@ -131,19 +191,19 @@
                 <div class="mt-8">
                     <h3 class="text-2xl font-bold">Quick Actions</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-                        <button class="bg-blue-500 text-white p-4 rounded-lg shadow hover:bg-blue-600">
+                        <button class="bg-red-500 text-white p-4 rounded-lg shadow hover:bg-red-600" id="markClaimsBtn">
                             <i class="fas fa-check-circle text-2xl"></i>
                             <p class="mt-2">Mark All Pending Claims as Followed-Up</p>
                         </button>
-                        <button class="bg-green-500 text-white p-4 rounded-lg shadow hover:bg-green-600">
+                        <button class="bg-red-500 text-white p-4 rounded-lg shadow hover:bg-red-600" id="sendNotificationsBtn">
                             <i class="fas fa-envelope text-2xl"></i>
                             <p class="mt-2">Send Bulk Notifications</p>
                         </button>
-                        <button class="bg-yellow-500 text-white p-4 rounded-lg shadow hover:bg-yellow-600">
+                        <button class="bg-red-500 text-white p-4 rounded-lg shadow hover:bg-red-600" id="generateReportBtn">
                             <i class="fas fa-file-alt text-2xl"></i>
                             <p class="mt-2">Generate Report</p>
                         </button>
-                        <button class="bg-red-500 text-white p-4 rounded-lg shadow hover:bg-red-600">
+                        <button class="bg-red-500 text-white p-4 rounded-lg shadow hover:bg-red-600" id="viewAppointmentsBtn">
                             <i class="fas fa-calendar-alt text-2xl"></i>
                             <p class="mt-2">View Today's Appointments</p>
                         </button>
@@ -152,41 +212,11 @@
 
                 <div class="mt-8">
                     <h3 class="text-2xl font-bold">Recent Activity</h3>
-                    <div class="bg-white p-4 rounded-lg shadow mt-4">
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-check-circle text-green-500 text-2xl"></i>
-                                <p>Dealer XYZ just updated 50 plates to ‘Ready for Pickup’</p>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-truck text-blue-500 text-2xl"></i>
-                                <p>New batch of plates arrived for processing.</p>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-exclamation-circle text-red-500 text-2xl"></i>
-                                <p>Reminder: 5 plates overdue for claiming.</p>
-                            </div>
+                    <div class="bg-black p-4 rounded-lg shadow mt-4" id="recentActivity">
+                        <div class="space-y-4" id="activityList" style="max-height: 200px; overflow-y: auto;">
+                            <!-- Recent activities will be populated here -->
                         </div>
-                    </div>
-                </div>
-
-                <div class="mt-8">
-                    <h3 class="text-2xl font-bold">Extras</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-                        <div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-                            <img alt="Weather widget" class="w-16 h-16" src="https://storage.googleapis.com/a1aa/image/EWhO2uB72GX_mQUXlgExlHpfyWz7XrNAgW1EgVQi3aw.jpg" />
-                            <div>
-                                <h4 class="text-xl font-semibold">Current Weather</h4>
-                                <p>Sunny, 25°C</p>
-                            </div>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="text-xl font-semibold">Quote of the Day</h4>
-                            <p class="mt-2">"The best way to predict the future is to create it." - Peter Drucker</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow flex items-center justify-center">
-                            <img alt="Gateway logo" class="w-16 h-16 animate-pulse" src="https://storage.googleapis.com/a1aa/image/RoPuhjbVCTBujkrUpT0hfKlYCwJejxYbIBM5N1uv3QA.jpg" />
-                        </div>
+                        <button id="clearActivityBtn" class="mt-4 bg-red-600 text-white p-2 rounded">Clear Recent Activity</button>
                     </div>
                 </div>
             </div>
@@ -194,58 +224,34 @@
             <!-- Claim Status Update Panel -->
             <div class="hidden space-y-6 fade-in" id="claimStatus">
                 <h2 class="text-3xl font-bold">Claim Status</h2>
-                <input class="w-full p-2 border rounded" placeholder="Search by plate number, owner, or status" type="text"/>
+                <input class="w-full p-2 border rounded" placeholder="Search by plate number, owner, or status" type="text" id="claimSearchInput"/>
                 <div class="mt-4">
                     <table class="w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200">
+                            <tr class="bg-gray-800">
                                 <th class="p-2">Plate Number</th>
                                 <th class="p-2">Owner</th>
                                 <th class="p-2">Status</th>
                                 <th class="p-2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-2">ABC1234</td>
-                                <td class="p-2">John Doe</td>
-                                <td class="p-2">
-                                    <select class="border p-1 rounded">
-                                        <option>Pending</option>
-                                        <option>Claimed</option>
-                                        <option>Overdue</option>
-                                    </select>
-                                </td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Update</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2">XYZ5678</td>
-                                <td class="p-2">Jane Smith</td>
-                                <td class="p-2">
-                                    <select class="border p-1 rounded">
-                                        <option>Pending</option>
-                                        <option>Claimed</option>
-                                        <option>Overdue</option>
-                                    </select>
-                                </td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Update</button>
-                                </td>
-                            </tr>
+                        <tbody id="claimStatusTableBody">
+                            <!-- Dynamic rows will be populated here -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <!-- Plate Lookup System -->
-            <form id="plateLookupForm" class="mt-4">
-                <label for="plate_number">Enter Plate Number:</label>
-                <input type="text" id="plate_number" name="plate_number" required class="w-full p-2 border rounded">
-                <button type="submit" class="bg-blue-500 text-white p-2 rounded mt-2">Search</button>
-            </form>
-            <div id="lookupResult" class="mt-4"></div>
+            <div class="hidden space-y-6 fade-in" id="plateLookup">
+                <h2 class="text-3xl font-bold">Plate Lookup</h2>
+                <form id="plateLookupForm" class="mt-4">
+                    <label for="plate_number" class="text-white">Enter Plate Number:</label>
+                    <input type="text" id="plate_number" name="plate_number" required class="w-full p-2 border rounded">
+                    <button type="submit" class="bg-red-500 text-white p-2 rounded mt-2">Search</button>
+                </form>
+                <div id="lookupResult" class="mt-4"></div> <!-- This is where results will be displayed -->
+            </div>
 
             <!-- Plate Stock Management -->
             <div class="hidden space-y-6 fade-in" id="stockManagement">
@@ -253,27 +259,14 @@
                 <div class="mt-4">
                     <table class="w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200">
+                            <tr class="bg-gray-800">
                                 <th class="p-2">Plate Number</th>
                                 <th class="p-2">Status</th>
                                 <th class="p-2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-2">ABC1234</td>
-                                <td class="p-2">In Stock</td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Mark as Claimed</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2">XYZ5678</td>
-                                <td class="p-2">In Stock</td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Mark as Claimed</button>
-                                </td>
-                            </tr>
+                        <tbody id="stockManagementTableBody">
+                            <!-- Dynamic rows will be populated here -->
                         </tbody>
                     </table>
                 </div>
@@ -284,28 +277,19 @@
                 <h2 class="text-3xl font-bold">Bulk Upload</h2>
                 <form action="upload_bulk.php" method="post" enctype="multipart/form-data">
                     <input class="w-full p-2 border rounded" type="file" name="excel_file" accept=".xlsx, .xls">
-                    <button type="submit" name="upload" class="mt-2 p-2 bg-blue-500 text-white rounded">Upload</button>
+                    <button type="submit" name="upload" class="mt-2 p-2 bg-red-500 text-white rounded">Upload</button>
                 </form>
                 <div class="mt-4">
                     <table class="w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200">
+                            <tr class="bg-gray-800">
                                 <th class="p-2">Plate Number</th>
                                 <th class="p-2">Owner</th>
                                 <th class="p-2">Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-2">ABC1234</td>
-                                <td class="p-2">John Doe</td>
-                                <td class="p-2">Pending</td>
-                            </tr>
-                            <tr>
-                                <td class="p-2">XYZ5678</td>
-                                <td class="p-2">Jane Smith</td>
-                                <td class="p-2">Pending</td>
-                            </tr>
+                        <tbody id="bulkUploadTableBody">
+                            <!-- Dynamic rows will be populated here -->
                         </tbody>
                     </table>
                 </div>
@@ -315,37 +299,21 @@
             <div class="hidden space-y-6 fade-in" id="notifications">
                 <h2 class="text-3xl font-bold">Notifications</h2>
                 <div class="flex space-x-4">
-                    <button class="bg-gray-200 p-2 rounded">All</button>
-                    <button class="bg-gray-200 p-2 rounded">SMS</button>
-                    <button class="bg-gray-200 p-2 rounded">Email</button>
+                    <button class="bg-gray-800 p-2 rounded">All</button>
+                    <button class="bg-gray-800 p-2 rounded">Email</button>
                 </div>
                 <div class="mt-4">
                     <table class="w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200">
+                            <tr class="bg-gray-800">
                                 <th class="p-2">Type</th>
                                 <th class="p-2">Message</th>
                                 <th class="p-2">Date</th>
                                 <th class="p-2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-2">SMS</td>
-                                <td class="p-2">Your plate ABC1234 is ready for pickup.</td>
-                                <td class="p-2">2023-10-01</td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Resend</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2">Email</td>
-                                <td class="p-2">Your plate XYZ5678 is overdue for pickup.</td>
-                                <td class="p-2">2023-09-25</td>
-                                <td class="p-2">
-                                    <button class="bg-blue-500 text-white p-1 rounded">Resend</button>
-                                </td>
-                            </tr>
+                        <tbody id="notificationsTableBody">
+                            <!-- Dynamic rows will be populated here -->
                         </tbody>
                     </table>
                 </div>
@@ -357,7 +325,7 @@
         const sections = {
             dashboard: document.getElementById('dashboard'),
             claimStatus: document.getElementById('claimStatus'),
-            plateLookup: document.getElementById('plateLookupForm'),
+            plateLookup: document.getElementById('plateLookup'),
             stockManagement: document.getElementById('stockManagement'),
             bulkUpload: document.getElementById('bulkUpload'),
             notifications: document.getElementById('notifications')
@@ -370,38 +338,66 @@
                 document.getElementById('mainDashboard').classList.remove('hidden');
                 document.getElementById('adminName').textContent = `Good morning, ${loggedInAdmin}!`;
                 document.getElementById('backgroundImage').classList.add('hidden');
+                fetchDashboardData(); // Fetch initial dashboard data
+                setInterval(fetchDashboardData, 5000); // Update every 5 seconds
+                loadRecentActivity(); // Load recent activity on page load
             }
         };
 
+        function fetchDashboardData() {
+            // Simulated API call to fetch dashboard data
+            const pendingClaimsCount = Math.floor(Math.random() * 20); // Simulated random data
+            const stockCount = Math.floor(Math.random() * 200); // Simulated random data
+            const notificationCount = Math.floor(Math.random() * 10); // Simulated random data
+
+            // Update the dashboard with the fetched data
+            document.getElementById('pendingClaimsCount').textContent = pendingClaimsCount;
+            document.getElementById('stockCount').textContent = stockCount;
+            document.getElementById('notificationCount').textContent = notificationCount;
+        }
+
+        function loadRecentActivity() {
+            const activityList = JSON.parse(localStorage.getItem('recentActivity')) || [];
+            const activityContainer = document.getElementById('activityList');
+            activityContainer.innerHTML = ''; // Clear existing activities
+
+            activityList.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'flex items-center space-x-4';
+                activityItem.innerHTML = `
+                    <i class="fas fa-info-circle text-blue-500 text-2xl"></i>
+                    <p>${activity}</p>
+                `;
+                activityContainer.appendChild(activityItem);
+            });
+        }
+
+        function addActivity(activity) {
+            const activityList = JSON.parse(localStorage.getItem('recentActivity')) || [];
+            activityList.push(activity);
+            localStorage.setItem('recentActivity', JSON.stringify(activityList));
+            loadRecentActivity(); // Refresh the activity display
+        }
+
         document.getElementById('loginBtn').addEventListener('click', () => {
-            const role = document.getElementById('userRole').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
 
-            if (role === 'customer') {
+            const storedAdmin = JSON.parse(localStorage.getItem('adminCredentials')) || {};
+            if (storedAdmin[username] && storedAdmin[username] === password) {
+                localStorage.setItem('loggedInAdmin', username);
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainDashboard').classList.remove('hidden');
-                document.getElementById('adminName').textContent = `Welcome, valued customer!`;
+                document.getElementById('adminName').textContent = `Good morning, ${username}!`;
                 document.getElementById('backgroundImage').classList.add('hidden');
                 showSection('dashboard');
-            } else if (role === 'admin') {
-                const storedAdmin = JSON.parse(localStorage.getItem('adminCredentials')) || {};
-                if (storedAdmin[username] && storedAdmin[username] === password) {
-                    localStorage.setItem('loggedInAdmin', username);
-                    document.getElementById('loginPage').classList.add('hidden');
-                    document.getElementById('mainDashboard').classList.remove('hidden');
-                    document.getElementById('adminName').textContent = `Good morning, ${username}!`;
-                    document.getElementById('backgroundImage').classList.add('hidden');
-                    showSection('dashboard');
-                } else {
-                    errorMessage.textContent = 'Invalid admin credentials. Please try again.';
-                    errorMessage.classList.remove('hidden');
-                }
-                if (!storedAdmin[username]) {
-                    storedAdmin[username] = password;
-                    localStorage.setItem('adminCredentials', JSON.stringify(storedAdmin));
-                }
+                fetchDashboardData(); // Fetch initial dashboard data
+                setInterval(fetchDashboardData, 5000); // Update every 5 seconds
+                addActivity(`${username} logged in.`); // Log activity
+            } else {
+                errorMessage.textContent = 'Invalid admin credentials. Please try again.';
+                errorMessage.classList.remove('hidden');
             }
         });
 
@@ -427,51 +423,138 @@
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('errorMessage').classList.add('hidden');
+            addActivity("User   logged out."); // Log activity
         });
 
-        document.getElementById('dashboardBtn').addEventListener('click', () => showSection('dashboard'));
-        document.getElementById('claimStatusBtn').addEventListener('click', () => showSection('claimStatus'));
-        document.getElementById('plateLookupBtn').addEventListener('click', () => showSection('plateLookup'));
-        document.getElementById('stockManagementBtn').addEventListener('click', () => showSection('stockManagement'));
-        document.getElementById('bulkUploadBtn').addEventListener('click', () => showSection('bulkUpload'));
-        document.getElementById('notificationsBtn').addEventListener('click', () => showSection('notifications'));
+        // Button event listeners for section navigation
+        document.getElementById('dashboardBtn').addEventListener('click', () => {
+            showSection('dashboard');
+        });
 
+        document.getElementById('claimStatusBtn').addEventListener('click', () => {
+            showSection('claimStatus');
+            fetchClaimStatus(); // Fetch claim status data
+        });
+
+        document.getElementById('plateLookupBtn').addEventListener('click', () => {
+            showSection('plateLookup');
+            // No need to fetch data here, handled in the form submission
+        });
+
+        document.getElementById('stockManagementBtn').addEventListener('click', () => {
+            showSection('stockManagement');
+            fetchStockManagement(); // Fetch stock management data
+        });
+
+        document.getElementById('bulkUploadBtn').addEventListener('click', () => {
+            showSection('bulkUpload');
+            fetchBulkUpload(); // Fetch bulk upload data
+        });
+
+        document.getElementById('notificationsBtn').addEventListener('click', () => {
+            showSection('notifications');
+            fetchNotifications(); // Fetch notifications data
+        });
+
+        // Function to show the selected section
         function showSection(section) {
             Object.values(sections).forEach(s => s.classList.add('hidden'));
-            if (section === 'plateLookup') {
-                document.getElementById('lookupResult').innerHTML = ''; // Clear previous results
-            }
             sections[section].classList.remove('hidden');
         }
 
-        // Plate Lookup Functionality
-        document.getElementById("plateLookupForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            let plateNumber = document.getElementById("plate_number").value;
+        // Fetch Claim Status Data
+        function fetchClaimStatus() {
+            fetch("claim_status.php")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector("#claimStatusTableBody");
+                    tableBody.innerHTML = ""; // Clear existing rows
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td class="p-2">${item.plate_number}</td>
+                            <td class="p-2">${item.owner}</td>
+                            <td class="p-2">
+                                <select class="border p-1 rounded">
+                                    <option ${item.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option ${item.status === 'Claimed' ? 'selected' : ''}>Claimed</option>
+                                    <option ${item.status === 'Overdue' ? 'selected' : ''}>Overdue</option>
+                                </select>
+                            </td>
+                            <td class="p-2">
+                                <button class="bg-red-500 text-white p-1 rounded">Update</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error fetching claim status:", error));
+        }
 
-            fetch("plate_lookup.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "plate_number=" + encodeURIComponent(plateNumber)
-            })
-            .then(response => response.json())
-            .then(data => {
-                let resultDiv = document.getElementById("lookupResult");
-                if (data.success) {
-                    resultDiv.innerHTML = `
-                        <div class="border-2 border-gray-300 p-4 mt-4 rounded">
-                            <h3 class="font-bold">Plate Information</h3>
-                            <p><strong>Plate Number:</strong> ${data.plate_number}</p>
-                            <p><strong>Owner:</strong> ${data.owner}</p>
-                            <p><strong>Status:</strong> ${data.status}</p>
-                        </div>
-                    `;
-                } else {
-                    resultDiv.innerHTML = `<p class="text-red-500 mt-4">${data.message}</p>`;
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        });
+        // Fetch Stock Management Data
+        function fetchStockManagement() {
+            fetch("stock_management.php")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector("#stockManagementTableBody");
+                    tableBody.innerHTML = ""; // Clear existing rows
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td class="p-2">${item.plate_number}</td>
+                            <td class="p-2">${item.status}</td>
+                            <td class="p-2">
+                                <button class="bg-red-500 text-white p-1 rounded">Mark as Claimed</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error fetching stock management:", error));
+        }
+
+        // Fetch Bulk Upload Data
+        function fetchBulkUpload() {
+            fetch("bulk_upload.php")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector("#bulkUploadTableBody");
+                    tableBody.innerHTML = ""; // Clear existing rows
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td class="p-2">${item.plate_number}</td>
+                            <td class="p-2">${item.owner}</td>
+                            <td class="p-2">${item.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error fetching bulk upload:", error));
+        }
+
+        // Fetch Notifications Data
+        function fetchNotifications() {
+            fetch("notifications.php")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector("#notificationsTableBody");
+                    tableBody.innerHTML = ""; // Clear existing rows
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td class="p-2">${item.type}</td>
+                            <td class="p-2">${item.message}</td>
+                            <td class="p-2">${item.date}</td>
+                            <td class="p-2">
+                                <button class="bg-red-500 text-white p-1 rounded">Resend</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error fetching notifications:", error));
+        }
     </script>
 </body>
 </html>

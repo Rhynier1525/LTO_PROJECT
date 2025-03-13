@@ -1,36 +1,41 @@
 <?php
-require_once 'db_connect.php'; // Ensure this file is correctly included
+$servername = "localhost"; // Your database server
+$username = "root"; // Your database username
+$password = ""; // Your database password
+$dbname = "lto_plate_mgmt_v2"; // Your database name
 
-header("Content-Type: application/json");
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-if (!isset($pdo)) {
-    die(json_encode(["success" => false, "message" => "Database connection failed."]));
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["plate_number"])) {
-    $plate_number = $_POST["plate_number"];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $plate_number = $_POST['plate_number'];
 
-    // Query to check plate details
-    $stmt = $pdo->prepare("SELECT p.plate_number, v.customer_id, p.status FROM plates p JOIN vehicles v ON p.vehicle_id = v.vehicle_id WHERE p.plate_number = ?");
-    $stmt->execute([$plate_number]);
-    $plate = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT plate_number, owner, status FROM plate_lookup WHERE plate_number = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $plate_number);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($plate) {
-        // Fetch owner details
-        $stmt2 = $pdo->prepare("SELECT CONCAT(first_name, ' ', last_name) AS owner FROM customers WHERE customer_id = ?");
-        $stmt2->execute([$plate['customer_id']]);
-        $customer = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "success" => true,
-            "plate_number" => $plate["plate_number"],
-            "owner" => $customer ? $customer["owner"] : "Unknown",
-            "status" => $plate["status"]
-        ]);
+    if ($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        $response = [
+            'success' => true,
+            'plate_number' => $data['plate_number'],
+            'owner' => $data['owner'],
+            'status' => $data['status']
+        ];
     } else {
-        echo json_encode(["success" => false, "message" => "Plate number not found."]);
+        $response = ['success' => false, 'message' => 'Plate not found.'];
     }
-} else {
-    echo json_encode(["success" => false, "message" => "Invalid request."]);
+
+    $stmt->close();
+    $conn->close();
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 ?>
